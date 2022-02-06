@@ -6,6 +6,7 @@ showNotes();
 let addBtn = document.getElementById("addBtn");
 addBtn.addEventListener("click", function (e) {
   let addTxt = document.getElementById("addTxt");
+  let addTitle = document.getElementById("title");
   let notes = localStorage.getItem("notes");
   if (notes == null) {
     notesObj = [];
@@ -13,10 +14,18 @@ addBtn.addEventListener("click", function (e) {
     notesObj = JSON.parse(notes);
   }
 
-  notesObj.push(addTxt.value);
+  let myObj = {
+    title : addTitle.value,
+    text : addTxt.value
+  }
+
+  notesObj.push(myObj);
   localStorage.setItem("notes", JSON.stringify(notesObj));
   addTxt.value = "";
+  addTitle.value = "";
   // console.log(notesObj);
+
+
   showNotes();
 });
 
@@ -29,18 +38,27 @@ function showNotes() {
     notesObj = JSON.parse(notes);
   }
 
+  //Declaration of title value
+
+  
+
+
+
+
   let html = "";
+  // console.log(title.value);
   notesObj.forEach(function (element, index) {
     html += `
   <div class="noteCard card my-2 mx-2" style="width: 18rem">
   <div class="card-body">
-    <h5 class="card-title">Note ${index + 1}</h5>
-    <p class="card-text">${element}</p>
+    <h5 class="card-title">${element.title}</h5>
+    <p class="card-text">${element.text}</p>
     <button id="${index}" onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
   </div>
 </div>
   `;
   });
+  // title.value = "";
 
   let notesElm = document.getElementById("notes");
   if (notesObj.length != 0) {
@@ -84,7 +102,7 @@ search.addEventListener("input", function () {
 
 /*
 Further fearures
-1. Add TItle
+1. Add Title
 2. Mark a note as important
 3. Separate notes by user
 4. Sync and host to web server
